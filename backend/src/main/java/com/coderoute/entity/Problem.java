@@ -1,7 +1,8 @@
-﻿package com.coderoute.entity;
+package com.coderoute.entity;
 
 import com.coderoute.entity.enums.Difficulty;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.EnumType;
@@ -19,8 +20,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import java.util.UUID;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
 
 @Entity
 @Table(name = "problem", indexes = {
@@ -55,8 +54,8 @@ public class Problem extends AuditedEntity {
 	@Column(name = "external_url", length = 2048)
 	private String externalUrl;
 
-	@JdbcTypeCode(SqlTypes.ARRAY)
-	@Column(nullable = false, columnDefinition = "text[]")
+	@Convert(converter = StringArrayJsonConverter.class)
+	@Column(nullable = false, columnDefinition = "text")
 	private String[] tags = new String[0];
 
 	@NotNull
