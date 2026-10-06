@@ -14,7 +14,7 @@ CREATE INDEX ix_topic_prerequisite_dependent ON topic_prerequisite (dependent_to
 CREATE INDEX ix_topic_prerequisite_prerequisite ON topic_prerequisite (prerequisite_topic_id);
 
 INSERT INTO topic_prerequisite (id, dependent_topic_id, prerequisite_topic_id, created_at, updated_at)
-SELECT RANDOM_UUID(), dependent.id, prerequisite.id, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
+SELECT gen_random_uuid(), dependent.id, prerequisite.id, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
 FROM (VALUES
     ('Two Pointers', 'Arrays'),
     ('Sliding Window', 'Two Pointers'),
