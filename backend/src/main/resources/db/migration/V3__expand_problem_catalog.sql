@@ -1,5 +1,6 @@
 INSERT INTO problem (id, title, description, difficulty, topic_id, external_url, tags, estimated_time_minutes, created_at, updated_at)
-SELECT gen_random_uuid(), seed.title, seed.description, seed.difficulty, seed.topic_id, NULL,
+
+SELECT gen_random_uuid(), seed.title, seed.description, seed.difficulty, seed.topic_id::uuid, NULL,
        seed.tags, seed.estimated_time_minutes, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
 FROM (VALUES
     -- Arrays: add 18, target 20
