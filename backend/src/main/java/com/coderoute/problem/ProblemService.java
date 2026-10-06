@@ -33,6 +33,7 @@ import com.coderoute.entity.UserTopicProgress;
 import com.coderoute.entity.enums.AttemptStatus;
 import com.coderoute.entity.enums.Difficulty;
 import com.coderoute.error.ResourceNotFoundException;
+import com.coderoute.repository.DsaTodoRepository;
 import com.coderoute.repository.ProblemAttemptRepository;
 import com.coderoute.repository.ProblemRepository;
 import com.coderoute.repository.TopicRepository;
@@ -49,15 +50,17 @@ public class ProblemService {
 	private final ProblemAttemptRepository attemptRepository;
 	private final UserRepository userRepository;
 	private final UserTopicProgressRepository progressRepository;
+	private final DsaTodoRepository todoRepository;
 
 	public ProblemService(ProblemRepository problemRepository, TopicRepository topicRepository,
 			ProblemAttemptRepository attemptRepository, UserRepository userRepository,
-			UserTopicProgressRepository progressRepository) {
+			UserTopicProgressRepository progressRepository, DsaTodoRepository todoRepository) {
 		this.problemRepository = problemRepository;
 		this.topicRepository = topicRepository;
 		this.attemptRepository = attemptRepository;
 		this.userRepository = userRepository;
 		this.progressRepository = progressRepository;
+		this.todoRepository = todoRepository;
 	}
 
 	@Transactional(readOnly = true)
@@ -127,6 +130,11 @@ public class ProblemService {
 		ProblemAttempt attempt = attemptRepository.save(new ProblemAttempt(user, problem, status,
 				request.timeTakenSeconds(), request.attempts(), solved ? Instant.now() : null));
 		updateProgress(user.getId(), problem.getTopic(), problem.getDifficulty());
+		if (solved) {
+			// Keep the user's DSA to-do list in sync when a task matches this problem.
+			todoRepository.completeMatchedForSolve(user.getId(), problem.getId(),
+					problem.getTitle().trim(), Instant.now());
+		}
 		return new ProblemAttemptResponse(attempt.getId(), user.getId(), problem.getId(), attempt.getStatus(),
 				attempt.getTimeTakenSeconds(), attempt.getAttempts(), attempt.getSolvedAt(),
 				attempt.getCreatedAt(), attempt.getUpdatedAt());

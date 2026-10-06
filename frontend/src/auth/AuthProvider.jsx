@@ -54,8 +54,12 @@ export function AuthProvider({ children }) {
     setUser(null)
   }
 
+  function updateUser(patch) {
+    setUser((previous) => (previous ? { ...previous, ...patch } : previous))
+  }
+
   return (
-    <AuthContext.Provider value={{ user, token, loading, login, register, logout }}>
+    <AuthContext.Provider value={{ user, token, loading, login, register, logout, updateUser }}>
       {children}
     </AuthContext.Provider>
   )

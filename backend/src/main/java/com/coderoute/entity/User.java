@@ -48,6 +48,10 @@ public class User extends AuditedEntity {
 	@Column(nullable = false, length = 20)
 	private UserRole role = UserRole.USER;
 
+	@Size(max = 255)
+	@Column(name = "leetcode_profile_url", length = 255)
+	private String leetcodeProfileUrl;
+
 	protected User() {
 	}
 
@@ -84,5 +88,13 @@ public class User extends AuditedEntity {
 
 	public UserRole getRole() {
 		return role;
+	}
+
+	public String getLeetcodeProfileUrl() {
+		return leetcodeProfileUrl;
+	}
+
+	public void setLeetcodeProfileUrl(String leetcodeProfileUrl) {
+		this.leetcodeProfileUrl = leetcodeProfileUrl;
 	}
 }

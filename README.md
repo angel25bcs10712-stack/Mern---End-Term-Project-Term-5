@@ -1,88 +1,274 @@
-# CodeRoute
+# CodeRoute 🚀
 
-CodeRoute is an adaptive DSA learning platform for interview preparation. The project contains a React/Vite frontend, a Spring Boot API, PostgreSQL persistence, and JWT-based authentication. Learning CRUD workflows and recommendation logic are not implemented yet.
+### Personalized DSA Learning & Practice Platform
 
-## Project layout
+CodeRoute is a full-stack platform designed to help students **learn, practice, and track Data Structures and Algorithms (DSA)** in a structured way.
+
+It combines DSA problem practice, progress tracking, personalized recommendations, a LeetCode profile, and a DSA-focused To-Do system in one platform.
+
+---
+
+## ✨ Features
+
+### 🔐 User Authentication
+
+* User registration and login
+* JWT-based authentication
+* Secure user account management
+
+### 🧩 DSA Problem Practice
+
+* 170+ DSA problems
+* Problems organized by topic
+* Difficulty levels:
+
+  * Beginner
+  * Intermediate
+  * Advanced
+* Filter problems by:
+
+  * Topic
+  * Difficulty
+  * Solved/Unsolved status
+
+### 📊 Learning Progress
+
+* Track problem attempts
+* Track topic progress
+* Monitor solved problems
+* Personalized practice recommendations
+
+### 🎯 Recommended Problems
+
+CodeRoute recommends problems based on the user's practice and learning progress.
+
+This helps users focus on topics where they need more practice.
+
+### 💻 LeetCode Profile
+
+Users can connect their LeetCode profile to their CodeRoute account.
+
+The profile link is available from the user's account section without requiring the user's LeetCode password.
+
+### ✅ DSA To-Do
+
+A dedicated To-Do system for DSA practice.
+
+Users can:
+
+* Add DSA tasks
+* Mark tasks as completed
+* Delete tasks
+* Track completed and remaining tasks
+* View overall To-Do progress
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+
+* React
+* JavaScript
+* CSS
+* Vite
+
+### Backend
+
+* Java
+* Spring Boot
+* Spring Security
+* JWT
+* Spring Data JPA
+* Hibernate
+
+### Database
+
+* PostgreSQL
+
+### Database Migration
+
+* Flyway
+
+### Development Tools
+
+* Git
+* GitHub
+* Maven
+
+---
+
+## 🏗️ Architecture
 
 ```text
-frontend/   React, Vite, Tailwind CSS, and React Router
-backend/    Spring Boot REST API, Spring Data JPA, Flyway migrations, PostgreSQL
+┌─────────────────────┐
+│   React Frontend    │
+│      Vite           │
+└──────────┬──────────┘
+           │
+           │ REST API
+           ▼
+┌─────────────────────┐
+│   Spring Boot API   │
+│                     │
+│  JWT Authentication │
+│  Business Logic     │
+│  JPA / Hibernate    │
+└──────────┬──────────┘
+           │
+           │ JDBC
+           ▼
+┌─────────────────────┐
+│     PostgreSQL      │
+│                     │
+│ Users               │
+│ Problems             │
+│ Attempts             │
+│ Topics               │
+│ Progress             │
+│ DSA To-Do            │
+└─────────────────────┘
 ```
 
-## Prerequisites
+---
 
-- Node.js 20.19+ or 22.12+
-- Java 21+
-- PostgreSQL 16+ for database-backed development
+## 📁 Project Structure
 
-## Run the frontend
-
-```powershell
-cd frontend
-npm install
-Copy-Item .env.example .env.local
-npm run dev
+```text
+CodeRoute - End Term Project Mern/
+│
+├── backend/
+│   ├── src/
+│   │   └── main/
+│   │       ├── java/com/coderoute/
+│   │       │   ├── auth/
+│   │       │   ├── entity/
+│   │       │   ├── repository/
+│   │       │   ├── service/
+│   │       │   ├── problem/
+│   │       │   ├── leetcode/
+│   │       │   ├── todo/
+│   │       │   └── dto/
+│   │       │
+│   │       └── resources/
+│   │           └── db/migration/
+│   │
+│   └── pom.xml
+│
+├── frontend/
+│   ├── src/
+│   │   ├── auth/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   └── ...
+│   │
+│   ├── package.json
+│   └── vite.config.*
+│
+└── README.md
 ```
 
-Vite serves the application at `http://localhost:5173`. `VITE_API_BASE_URL` points the frontend to the backend; its default is `http://localhost:8080`.
+---
 
-## Configure the database
+## 🗄️ Database
 
-The backend defaults to an in-memory H2 database for local startup, so it can boot without a PostgreSQL installation. Set `DB_URL`, `DB_USERNAME`, and `DB_PASSWORD` to use a real PostgreSQL database when you want the production-like configuration.
+CodeRoute uses PostgreSQL with Flyway for database version control.
 
-For PostgreSQL, create a database and a dedicated local user in `psql` (choose your own password):
+The project includes migrations for:
 
-```sql
-CREATE USER postgres WITH PASSWORD 'choose-your-local-password';
-CREATE DATABASE coderoute OWNER postgres;
+* Learning schema
+* Problem catalog
+* Expanded problem catalog
+* Topic prerequisite graph
+* LeetCode profile
+* DSA To-Do
+
+Flyway ensures database changes are applied in the correct order.
+
+---
+
+## 🔑 Authentication Flow
+
+```text
+User
+  ↓
+Sign Up
+  ↓
+Account Created
+  ↓
+Login
+  ↓
+Backend verifies credentials
+  ↓
+JWT generated
+  ↓
+Frontend stores authentication state
+  ↓
+Authenticated API requests
 ```
 
-The backend reads `DB_URL`, `DB_USERNAME`, and `DB_PASSWORD` from its process environment. `.env.example` documents the variables but Spring Boot does not load `.env` files automatically. In PowerShell, set the values in the terminal where you will run the API:
+Passwords and JWT secrets should be stored using environment variables and should never be committed to GitHub.
 
-```powershell
-$env:DB_URL = "jdbc:postgresql://localhost:5432/coderoute"
-$env:DB_USERNAME = "postgres"
-$env:DB_PASSWORD = "your-local-password"
-$env:FRONTEND_ORIGIN_PATTERNS = "http://localhost:*,http://127.0.0.1:*"
-$env:FLYWAY_ENABLED = "true"
-$env:JWT_SECRET = "replace-with-a-random-secret-of-at-least-32-characters"
+---
+
+## 💻 Getting Started
+
+### Prerequisites
+
+Install:
+
+* Java
+* PostgreSQL
+* Node.js
+* Git
+
+---
+
+## 1. Clone the Repository
+
+```bash
+git clone https://github.com/angel25bcs10712-stack/Mern---End-Term-Project-Term-5.git
+cd Mern---End-Term-Project-Term-5
 ```
 
-`JWT_SECRET` is required and must contain at least 32 UTF-8 bytes. Keep it out of source control and use a randomly generated secret outside local development. Tokens expire after 24 hours by default; set `JWT_EXPIRATION` (or the legacy `JWT_EXPIRATION_MS`) to change this.
+---
 
-Flyway applies `backend/src/main/resources/db/migration/V1__create_learning_schema.sql` on startup. Hibernate validates the migrated schema and does not create or modify tables. A reachable PostgreSQL database with this schema is required for the backend to start. The no-database test configuration disables both Flyway and schema validation; disabling Flyway alone is not enough for a normal application startup.
+## 2. Start PostgreSQL
 
-The model is under `backend/src/main/java/com/coderoute/entity`, repositories under `repository`, and validated request/safe response records under `dto`. Passwords are BCrypt-hashed in `password_hash`; user responses never include the hash. Authenticated requests use `Authorization: Bearer <token>`. Private endpoints require authentication, `/api/admin/**` requires the `ADMIN` role, and `/api/auth/me` only returns the authenticated user's own profile. New user-data handlers must scope repository access to the authenticated user's ID.
+Make sure PostgreSQL is running and the CodeRoute database exists.
 
-## Authentication API
+Example:
 
-- `POST /api/auth/register` accepts `{ "name", "email", "password" }`, creates a `USER`, and returns `201` with `{ "token", "user" }`. Email must be valid and passwords must be 8-72 characters. Duplicate email returns `409`.
-- `POST /api/auth/login` accepts `{ "email", "password" }` and returns `200` with `{ "token", "user" }`; invalid credentials return `401`.
-- `GET /api/auth/me` returns the current safe user DTO and requires a valid JWT.
+```text
+Database: coderoute
+Username: postgres
+```
 
-The frontend provides `/login`, `/register`, and a protected `/account` route. It persists the JWT in browser local storage and clears it on sign out.
+Configure the required database and JWT environment variables locally.
 
-## Problem practice API
+**Never commit `.env` files or real credentials.**
 
-All problem and topic endpoints require a JWT. `GET /api/problems` accepts `page` (zero-based, default `0`), `size` (default `20`, maximum `50`), `search`, `topicId`, `difficulty` (`BEGINNER`, `INTERMEDIATE`, `ADVANCED`), and `solved` (`true`/`false`). Search and solved status are evaluated by the backend; the response contains page metadata and DTOs. `GET /api/problems/{id}` returns the brief and caller-specific solved state. `GET /api/topics` returns the topic filter options.
+---
 
-`POST /api/problems/{id}/attempt` and `POST /api/problems/{id}/solve` accept `{ "timeTakenSeconds": 900, "attempts": 2 }`. The caller's identity is taken only from the JWT. `GET /api/users/me/progress` returns the caller's aggregate counts and per-topic progress. Flyway migration V2 seeds the topic list and original short problem briefs.
+## 3. Start Backend
 
-## Run the backend
-
-From the repository root:
+Open a terminal:
 
 ```powershell
 cd backend
 .\mvnw.cmd spring-boot:run
 ```
 
-The backend runs independently from the frontend at `http://localhost:8080`. With PostgreSQL configured, Flyway creates or upgrades the schema before the API starts.
+The backend runs on:
 
-Verify it with:
+```text
+http://localhost:8080
+```
+
+### Health Check
 
 ```powershell
-Invoke-RestMethod http://localhost:8080/api/health
+Invoke-WebRequest http://localhost:8080/api/health -UseBasicParsing
 ```
 
 Expected response:
@@ -93,9 +279,139 @@ Expected response:
 }
 ```
 
-Run the backend checks with:
+---
+
+## 4. Start Frontend
+
+Open a **second terminal**:
 
 ```powershell
-cd backend
-.\mvnw.cmd test
+cd frontend
+npm install
+npm run dev
 ```
+
+Then open the URL shown by Vite, normally:
+
+```text
+http://localhost:5173
+```
+
+---
+
+## 🔒 Environment Variables
+
+Create your local environment configuration separately.
+
+Example:
+
+```env
+DB_URL=
+DB_USERNAME=
+DB_PASSWORD=
+JWT_SECRET=
+FLYWAY_ENABLED=true
+```
+
+Do not put actual passwords, JWT secrets, or API keys in this README or GitHub.
+
+---
+
+## 🧪 Testing the Application
+
+After starting both servers, verify:
+
+### Backend
+
+```text
+http://localhost:8080/api/health
+```
+
+### Frontend
+
+```text
+http://localhost:5173
+```
+
+Then test:
+
+* User registration
+* User login
+* Problems page
+* Problem filtering
+* Problem progress
+* Recommended problems
+* LeetCode profile
+* DSA To-Do
+* To-Do progress
+
+---
+
+## 📌 Main User Flow
+
+```text
+Create Account
+      ↓
+Login
+      ↓
+Dashboard
+      ↓
+Explore DSA Problems
+      ↓
+Solve Problems
+      ↓
+Track Progress
+      ↓
+Get Recommendations
+      ↓
+Manage DSA To-Do
+      ↓
+View LeetCode Profile
+```
+
+---
+
+## 🚀 Deployment
+
+The application can be deployed as separate services:
+
+```text
+React Frontend
+      ↓
+Spring Boot Backend
+      ↓
+Production PostgreSQL
+```
+
+The frontend and backend should be configured with the appropriate production environment variables.
+
+Database credentials and JWT secrets must be stored securely in the deployment platform's environment-variable settings.
+
+---
+
+## 🔮 Future Improvements
+
+Possible future improvements include:
+
+* More advanced personalized recommendations
+* Detailed learning analytics
+* Contest preparation plans
+* Better LeetCode synchronization
+* Daily DSA learning plans
+* Progress streaks
+* Email notifications
+* Production monitoring
+
+---
+
+
+
+## 👨‍💻 Author
+
+**Angel Singh**
+
+---
+
+## ⭐ Project
+
+If you find CodeRoute useful, consider giving the repository a ⭐ on GitHub.

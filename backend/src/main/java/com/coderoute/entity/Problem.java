@@ -1,4 +1,4 @@
-﻿package com.coderoute.entity;
+package com.coderoute.entity;
 
 import com.coderoute.entity.enums.Difficulty;
 import jakarta.persistence.Column;

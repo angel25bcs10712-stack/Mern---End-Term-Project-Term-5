@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.coderoute.dto.auth.AuthResponse;
 import com.coderoute.dto.auth.LoginRequest;
+import com.coderoute.dto.auth.ProfileUpdateRequest;
 import com.coderoute.dto.auth.RegisterRequest;
 import com.coderoute.dto.auth.UserResponse;
 
@@ -39,5 +41,11 @@ public class AuthController {
 	@GetMapping("/me")
 	public UserResponse me(@AuthenticationPrincipal AuthenticatedUser user) {
 		return UserResponse.from(user.getUser());
+	}
+
+	@PutMapping("/me")
+	public UserResponse updateMe(@AuthenticationPrincipal AuthenticatedUser user,
+			@Valid @RequestBody ProfileUpdateRequest request) {
+		return authService.updateProfile(user, request);
 	}
 }
